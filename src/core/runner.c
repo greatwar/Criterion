@@ -197,6 +197,8 @@ void disable_unmatching(struct criterion_test_set *set)
 
             if (ret == 0)
                 test->data->disabled = true;
+            else
+                test->data->disabled = false;
         }
     }
     free_pattern();
