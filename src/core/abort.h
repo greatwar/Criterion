@@ -25,7 +25,7 @@
 #define ABORT_H_
 
 #include <criterion/abort.h>
-#include <setjmp.h>
+#include "compat/setjmp.h"
 
 extern jmp_buf g_pre_test;
 

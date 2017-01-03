@@ -3,8 +3,11 @@
 # For details see the LICENSE file distributed with Criterion.
 
 set(PATH_VAR
+  "${PROJECT_BINARY_DIR}/Debug"
   "${PROJECT_BINARY_DIR}/samples"
+  "${PROJECT_BINARY_DIR}/samples/Debug"
   "${PROJECT_BINARY_DIR}/samples/tests"
+  "${PROJECT_BINARY_DIR}/samples/tests/Debug"
   "${PROJECT_BINARY_DIR}/external/lib"
   "${PROJECT_BINARY_DIR}/external/bin"
 )
@@ -36,14 +39,7 @@ if (WIN32)
   else ()
     file (TO_CMAKE_PATH "$ENV{MINGW}" MINGW_HOME)
   endif ()
-  if (ENV{CRAM_SHELL} STREQUAL "" AND MINGW_HOME)
-    set (CRAM_SHELL "${MINGW_HOME}/msys/1.0/bin/sh.exe")
-  else ()
-    file (TO_CMAKE_PATH "$ENV{CRAM_SHELL}" CRAM_SHELL)
-  endif ()
-  if (CRAM_SHELL)
-    set(CRAM_OPTS "--shell=${CRAM_SHELL}")
-  endif ()
+  set(CRAM_OPTS "--shell=${CRAM_SHELL}")
 endif ()
 
 if ("$ENV{TRAVIS}" STREQUAL "true")

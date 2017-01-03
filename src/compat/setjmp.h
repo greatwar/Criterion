@@ -21,25 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef I18N_H_
-#define I18N_H_
+#ifndef SETJMP_H_
+#define SETJMP_H_
 
-#include "config.h"
+#include <setjmp.h>
+#include "common.h"
 
-#if !ENABLE_NLS
-# define _(String)                       String
-# define _s(String, Plural, Quantity)    ((Quantity) == 1 ? String : Plural)
+/* We need to replace the garbage implementation of setjmp in the Windows CRT
+   that unwinds even though longjmp is not supposed to. */
+#if defined (_WIN32)
+# if defined (__GNUC__)
+#  define cri_setjmp     __builtin_setjmp
+#  define cri_longjmp    __builtin_longjmp
+# else
+int bxfi_setjmp(jmp_buf);
+CR_NORETURN void bxfi_longjmp(jmp_buf, int);
+/* Fallback on boxfort internal implementations on windows */
+#  define cri_setjmp     bxfi_setjmp
+#  define cri_longjmp    bxfi_longjmp
+# endif
 #else
-# include <libintl.h>
-# define _(String)    dgettext(PACKAGE, String)
-# define _s(String, Plural, Quantity) \
-    dngettext(PACKAGE, String, Plural, (Quantity))
+# define cri_setjmp     setjmp
+# define cri_longjmp    longjmp
 #endif
 
-/* Used to mark string for gettext */
-#define N_(Str)         Str
-#define N_s(Str, Pl)    { Str, Pl }
-
-void init_i18n(void);
-
-#endif /* !I18N_H_ */
+#endif /* !SETJMP_H_ */
