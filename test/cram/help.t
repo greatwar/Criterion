@@ -1,7 +1,7 @@
 Display the help message
 
   $ simple.c.bin --help
-  Tests compiled with Criterion v2.3.1
+  Tests compiled with Criterion v2.3.2
   
   usage: .*simple\.c\.bin(\.exe)? OPTIONS (re)
   options: 
@@ -11,6 +11,8 @@ Display the help message
       -l or --list: prints all the tests in a list
       -jN or --jobs N: use N concurrent jobs
       -f or --fail-fast: exit after the first failure
+      --color=<auto|always|never>: colorize the output
+      --encoding=<ENCODING>: use the specified encoding for the output (default: locale-deduced)
       --ascii: don't use fancy unicode symbols or colors in the output
       -S or --short-filename: only display the base name of the source file on a failure
       --filter [PATTERN]: run tests matching the given pattern
@@ -23,10 +25,11 @@ Display the help message
       --debug[=TYPE]: run tests with a debugging server, listening on localhost:1234 by default. TYPE may be gdb, lldb, or wingbd.
       --debug-transport=VAL: the transport to use by the debugging server. `tcp:1234` by default
       --full-stats: Tests must fully report statistics (causes massive slowdown for large number of assertions but is more accurate).
+      --ignore_warnings: Ignore warnings, do not exit with a non-zero exit status.
       -OP:F or --output=PROVIDER=FILE: write test report to FILE using the specified provider
 
   $ simple.cc.bin --help
-  Tests compiled with Criterion v2.3.1
+  Tests compiled with Criterion v2.3.2
   
   usage: .*simple\.cc\.bin(\.exe)? OPTIONS (re)
   options: 
@@ -36,6 +39,8 @@ Display the help message
       -l or --list: prints all the tests in a list
       -jN or --jobs N: use N concurrent jobs
       -f or --fail-fast: exit after the first failure
+      --color=<auto|always|never>: colorize the output
+      --encoding=<ENCODING>: use the specified encoding for the output (default: locale-deduced)
       --ascii: don't use fancy unicode symbols or colors in the output
       -S or --short-filename: only display the base name of the source file on a failure
       --filter [PATTERN]: run tests matching the given pattern
@@ -48,14 +53,14 @@ Display the help message
       --debug[=TYPE]: run tests with a debugging server, listening on localhost:1234 by default. TYPE may be gdb, lldb, or wingbd.
       --debug-transport=VAL: the transport to use by the debugging server. `tcp:1234` by default
       --full-stats: Tests must fully report statistics (causes massive slowdown for large number of assertions but is more accurate).
+      --ignore_warnings: Ignore warnings, do not exit with a non-zero exit status.
       -OP:F or --output=PROVIDER=FILE: write test report to FILE using the specified provider
-
 
 Display usage on invalid CLI flags
 
   $ simple.c.bin --an-invalid-option
   .*simple\.c\.bin(\.exe)?: (unknown|unrecognized) option [`'"]?-- ?an-invalid-option['"]? (re)
-  Tests compiled with Criterion v2.3.1
+  Tests compiled with Criterion v2.3.2
   
   usage: .*simple\.c\.bin(\.exe)? OPTIONS (re)
   options: 
@@ -65,6 +70,8 @@ Display usage on invalid CLI flags
       -l or --list: prints all the tests in a list
       -jN or --jobs N: use N concurrent jobs
       -f or --fail-fast: exit after the first failure
+      --color=<auto|always|never>: colorize the output
+      --encoding=<ENCODING>: use the specified encoding for the output (default: locale-deduced)
       --ascii: don't use fancy unicode symbols or colors in the output
       -S or --short-filename: only display the base name of the source file on a failure
       --filter [PATTERN]: run tests matching the given pattern
@@ -77,4 +84,5 @@ Display usage on invalid CLI flags
       --debug[=TYPE]: run tests with a debugging server, listening on localhost:1234 by default. TYPE may be gdb, lldb, or wingbd.
       --debug-transport=VAL: the transport to use by the debugging server. `tcp:1234` by default
       --full-stats: Tests must fully report statistics (causes massive slowdown for large number of assertions but is more accurate).
+      --ignore_warnings: Ignore warnings, do not exit with a non-zero exit status.
       -OP:F or --output=PROVIDER=FILE: write test report to FILE using the specified provider

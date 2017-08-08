@@ -6,7 +6,7 @@ Debugging and Coverage information
 .. note::
 
     The following section assumes you have the relevant debugging server
-    installed on your server. For instance, if you're debugging with gdb,
+    installed on your machine. For instance, if you're debugging with gdb,
     you'll need to have ``gdbserver`` installed and available in your PATH.
 
 Debugging with GDB
@@ -58,7 +58,7 @@ And a new process is created for the next test:
     Process /path/to/test created; pid = 26414
     Listening on port 1234
 
-Connect your remote debugger to this test with ``remote target localhost:1234``
+Connect your remote debugger to this test with ``target remote localhost:1234``
 and run the test with ``continue``
 
 To use a different port use ``--debug --debug-transport=<protocol>:<port>``
@@ -101,3 +101,14 @@ Coverage of Criterion tests
 
 To use gcov, you have to compile your tests with the two GCC Options
 ``-fprofile-arcs`` and ``–ftest-coverage``.
+
+Using Valgrind with Criterion
+-----------------------------
+
+Valgrind works out of the box. However, note that for all valgrind tools, you
+must pass ``--trace-children=yes``, as criterion fork/execs test workers.
+
+If you're using callgrind and ``--callgrind-out-file``, make sure you specify
+``%p`` in the filename, as it will get substituted by the worker PID. If you
+don't, all the test workers will overwrite the same file over and over, and
+you will only get the results for the last running test.

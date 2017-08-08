@@ -1,12 +1,14 @@
-# Copyright (C) 2015-2016 Franklin "Snaipe" Mathieu.
+# Copyright (C) 2015-2017 Franklin "Snaipe" Mathieu.
 # Redistribution and use of this file is allowed according to the terms of the MIT license.
 # For details see the LICENSE file distributed with Criterion.
 
 # List sources and headers
 
 set(SOURCE_FILES
+  src/capi/specifiers.c
   src/core/abort.c
   src/core/abort.h
+  src/core/assert.c
   src/core/report.c
   src/core/report.h
   src/core/runner.c
@@ -26,6 +28,8 @@ set(SOURCE_FILES
   src/compat/pipe-internal.h
   src/compat/section.c
   src/compat/section.h
+  src/compat/strtok.c
+  src/compat/strtok.h
   src/compat/process.c
   src/compat/process.h
   src/compat/basename.c
@@ -43,7 +47,6 @@ set(SOURCE_FILES
   src/io/redirect.c
   src/io/event.c
   src/io/event.h
-  src/io/asprintf.c
   src/io/file.c
   src/io/output.c
   src/io/output.h
@@ -53,6 +56,9 @@ set(SOURCE_FILES
   src/log/logging.c
   src/log/logging.h
   src/log/normal.c
+  src/string/diff.c
+  src/string/fmt.c
+  src/string/fmt.h
   src/string/i18n.c
   src/string/i18n.h
   src/entry/options.c
@@ -75,6 +81,7 @@ set(SOURCE_FILES
   src/string/extglobmatch.h
   src/string/brz.c
   src/string/brz.h
+  src/string/xxd.c
 
   dependencies/nanopb/pb_common.c
   dependencies/nanopb/pb_common.h
@@ -92,33 +99,48 @@ endif ()
 
 
 set(INTERFACE_FILES
-  include/criterion/assert.h
   include/criterion/abort.h
+  include/criterion/alloc.h
+  include/criterion/assert.h
   include/criterion/criterion.h
+  include/criterion/embedded.h
   include/criterion/event.h
   include/criterion/hooks.h
-  include/criterion/logging.h
-  include/criterion/types.h
-  include/criterion/options.h
-  include/criterion/stats.h
-  include/criterion/alloc.h
-  include/criterion/parameterized.h
-  include/criterion/redirect.h
-  include/criterion/output.h
-  include/criterion/internal/assert.h
-  include/criterion/internal/test.h
-  include/criterion/internal/common.h
-  include/criterion/internal/ordered-set.h
   include/criterion/internal/asprintf-compat.h
+  include/criterion/internal/assert.h
+  include/criterion/internal/assert/complex.h
+  include/criterion/internal/assert/exceptions.h
+  include/criterion/internal/assert/ieee.h
+  include/criterion/internal/assert/memory.h
+  include/criterion/internal/assert/op.h
+  include/criterion/internal/assert/op.hxx
+  include/criterion/internal/assert/tag.h
+  include/criterion/internal/assert/tostr.h
+  include/criterion/internal/assert/types.h
+  include/criterion/internal/capabilities.h
+  include/criterion/internal/common.h
+  include/criterion/internal/deprecation.h
   include/criterion/internal/designated-initializer-compat.h
-  include/criterion/internal/preprocess.h
-  include/criterion/internal/parameterized.h
-  include/criterion/internal/stdio_filebuf.hxx
-  include/criterion/internal/stream.hxx
   include/criterion/internal/hooks.h
+  include/criterion/internal/new_asserts.h
+  include/criterion/internal/ordered-set.h
+  include/criterion/internal/parameterized.h
+  include/criterion/internal/preprocess.h
   include/criterion/internal/redirect.h
   include/criterion/internal/stdio_filebuf.hxx
-  include/criterion/internal/deprecation.h
+  include/criterion/internal/stream.hxx
+  include/criterion/internal/test.h
+  include/criterion/internal/theories.h
+  include/criterion/logging.h
+  include/criterion/new/assert.h
+  include/criterion/new/memory.h
+  include/criterion/options.h
+  include/criterion/output.h
+  include/criterion/parameterized.h
+  include/criterion/redirect.h
+  include/criterion/stats.h
+  include/criterion/theories.h
+  include/criterion/types.h
 )
 
 if (THEORIES)
@@ -132,7 +154,7 @@ endif()
 
 configure_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/config.h.in"
-  "${CMAKE_CURRENT_SOURCE_DIR}/config.h"
+  "${CMAKE_CURRENT_BINARY_DIR}/config.h"
 )
 
 configure_file(

@@ -97,6 +97,18 @@ CR_API void cr_log(enum criterion_severity severity, const char *msg, ...);
  *****************************************************************************/
 #define cr_log_error(...)    cr_log(CR_LOG_ERROR, __VA_ARGS__)
 
+enum cr_log_assert_param_kind {
+    CR_LOG_PARAM_STR,
+    CR_LOG_PARAM_RAW,
+};
+
+struct cr_log_assert_param {
+    const char *name;
+    size_t size;
+    void *data;
+    enum cr_log_assert_param_kind kind;
+};
+
 struct criterion_logger {
     void (*log_pre_all      )(struct criterion_test_set *set);
     void (*log_pre_suite    )(struct criterion_suite_set *set);
@@ -114,6 +126,15 @@ struct criterion_logger {
     void (*log_post_suite   )(struct criterion_suite_stats *stats);
     void (*log_post_all     )(struct criterion_global_stats *stats);
     void (*log_message      )(enum criterion_severity, const char *msg);
+    void (*log_assert_sub   )(struct criterion_assert_stats *stats,
+            const char *repr, const char *message);
+    void (*log_assert_formatted)(struct criterion_assert_stats *stats,
+            const char *formatted);
+    void (*log_assert_param)(struct criterion_assert_stats *stats,
+            struct cr_log_assert_param *param);
+    void (*log_assert_param_eq)(struct criterion_assert_stats *stats,
+            struct cr_log_assert_param *expected,
+            struct cr_log_assert_param *actual);
 };
 
 extern struct criterion_logger normal_logging;
@@ -155,9 +176,9 @@ namespace criterion
       streambuf buf;
   };
 
-  stream info { CR_LOG_INFO };
-  stream warn { CR_LOG_WARNING };
-  stream error { CR_LOG_ERROR };
+  static stream info { CR_LOG_INFO };
+  static stream warn { CR_LOG_WARNING };
+  static stream error { CR_LOG_ERROR };
   } }
 #endif
 

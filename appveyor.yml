@@ -1,4 +1,4 @@
-version: 2.3.1_b{build}-{branch}
+version: 2.3.2_b{build}-{branch}
 
 os: Visual Studio 2015
 
@@ -15,11 +15,20 @@ environment:
   - COMPILER: mingw
     GENERATOR: "MSYS Makefiles"
     BUILD_FLAGS: -j2
+    CPPFLAGS: -D__USE_MINGW_ANSI_STDIO=1
   - COMPILER: msvc
     GENERATOR: "Visual Studio 14 2015 Win64"
     CFLAGS: /MP
     CXXFLAGS: /MP
     BUILD_FLAGS: /verbosity:m
+
+platform: x86_64
+
+clone_script:
+  - git clone -q --recursive --depth=5 --single-branch --branch=%APPVEYOR_REPO_BRANCH% https://github.com/%APPVEYOR_REPO_NAME%.git %APPVEYOR_BUILD_FOLDER%
+  - git checkout -qf %APPVEYOR_REPO_COMMIT%
+  # Hack to make git think it is on the tip of the repo branch
+  - git checkout -B %APPVEYOR_REPO_BRANCH%
 
 init:
   - git config --global core.autocrlf input
@@ -39,16 +48,12 @@ init:
   # Remove Xamarin msbuild warnings
   - del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
 
-clone_depth: 5
-
 configuration:
   - Debug
   - RelWithDebInfo
 
 install:
   - ps: $env:RELEASE_NAME = $env:APPVEYOR_REPO_BRANCH -replace "/", "-"
-  # Hack to make git think it is on the tip of the repo branch
-  - 'git checkout -B %APPVEYOR_REPO_BRANCH%'
 
   # Patch buggy cram
   - sh -c "patch /c/Python35/lib/site-packages/cram/_test.py .cmake/cram-env.patch"
@@ -96,6 +101,7 @@ deploy:
   artifact: 'criterion-$(RELEASE_NAME)-windows-$(COMPILER)-$(PLATFORM).tar.bz2'
   draft: false
   prerelease: false
+  force_update: true
   on:
     appveyor_repo_tag: true
     configuration: RelWithDebInfo

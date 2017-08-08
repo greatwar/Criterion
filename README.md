@@ -1,6 +1,4 @@
-
-<img src="doc/criterion-title.png" height="96" alt="Criterion Logo" />
-=========
+<h1><img src="doc/criterion-title.png" height="96" alt="Criterion Logo" /></h1>
 
 [![Unix Build Status](https://img.shields.io/travis/Snaipe/Criterion/bleeding.svg?label=linux)](https://travis-ci.org/Snaipe/Criterion) 
 [![Windows Build Status](https://img.shields.io/appveyor/ci/Snaipe/Criterion/bleeding.svg?label=windows)](https://ci.appveyor.com/project/Snaipe/Criterion/branch/bleeding)
@@ -42,7 +40,14 @@ the user would have with other frameworks:
 ### Packages
 
 * Mac OS X: `brew install snaipe/soft/criterion`
-* [AUR](https://aur.archlinux.org/packages/criterion/): `yaourt -S criterion`
+* [AUR](https://aur.archlinux.org/packages/criterion/): `pacaur -S criterion`
+* Ubuntu/Debian:
+
+    ```bash
+    $ sudo add-apt-repository ppa:snaipewastaken/ppa
+    $ sudo apt-get update
+    $ sudo apt-get install criterion-dev
+    ```
 
 ### Binary archives
 
